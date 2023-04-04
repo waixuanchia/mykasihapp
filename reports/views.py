@@ -23,26 +23,22 @@ from django.conf import settings
 class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
     
     def create(self,request):
         
-
         id = request.user.id
+        print(request.user)
         user = User.objects.get(id = id)
+
+        image_url = request.data['image_url']
         description = request.data['description']
-        ministry_id = request.data['option']
+        ministry_id = request.data['ministry']
+
         ministry = Ministries.objects.get(id = ministry_id)
-        image = request.data['image']
         status = Status.objects.get(status="pending acceptance")
-        """
-
-        report = Report.objects.create(user=user,ministry=ministry,description=description,status=status,image_url=image)
-        
+        report = Report.objects.create(user=user,image_url=image_url,description=description,ministry=ministry,status=status)
         report.save()
-        """
-        print(request)
-
 
         return Response({"message":"success"})
     

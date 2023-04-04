@@ -15,7 +15,7 @@ class Status(models.Model):
 class Report(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     status = models.ForeignKey(Status,on_delete=models.CASCADE)
-    image_url = models.ImageField(upload_to="reports/images",blank=True,null=True)
+    image_url = models.TextField(blank=True,null=True)
     ministry = models.ForeignKey(Ministries,on_delete=models.CASCADE)
     description = models.TextField(blank=True,null=True)
 

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.parsers import JSONParser
 from .models import Report,Status
-from .serializer import ReportSerializer
+from .serializer import ReportSerializer,StatusSerializer
 from ministries.models import Ministries
 from accounts.models import User
 import json
@@ -23,43 +23,25 @@ from django.conf import settings
 class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     
     def create(self,request):
         
-        print(request.user.id)
+
         id = request.user.id
         user = User.objects.get(id = id)
-        contact = request.data['contact']
         description = request.data['description']
         ministry_id = request.data['option']
         ministry = Ministries.objects.get(id = ministry_id)
         image = request.data['image']
-        decoded_image = base64.b64decode(image)
-        
-        image_field = Base64ImageField()
-        image = image_field.to_internal_value(image)
-
         status = Status.objects.get(status="pending acceptance")
+        """
+
         report = Report.objects.create(user=user,ministry=ministry,description=description,status=status,image_url=image)
         
         report.save()
-
-
-
-
-
-        #print(user)
-        #print(request.data['contact'])
-        
-        #json_data = json.loads(request.body)['_parts']
-        #name = json_data[0][1]
-        #contact = json_data[1][1]
-        #description = json_data[2][1]
-        #ministry = json_data[3][1]
-        #image = json_data[4][1]
-        #ministry = Ministries.objects.get(id=ministry)
-        #print(request.user)
+        """
+        print(request)
 
 
         return Response({"message":"success"})
@@ -84,6 +66,12 @@ class ReportViewSet(viewsets.ModelViewSet):
         html_content = html_content.replace('<img src="logo.png">', '<img src="cid:logo.png">')
         msg.send()
         return Response({"message":"success"})
+    
+class StatusViewSet(viewsets.ModelViewSet):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+    permission_classes = [AllowAny]
+
 
 
 

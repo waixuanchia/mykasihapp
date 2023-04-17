@@ -3,13 +3,20 @@
 
 {% block content %}
 <div>
- 
-    <h1>Your report has been received</h1>
+    {% if status == 'accepted' %}
+    <h1>Your report has been accepted</h1>
+    {% else %}
+    <h1>Your report has been rejected</h1>
     <p>Dear {{ name }},</p>
-    <p>This email is just for notifying you about your report has been received, it will take sometime for our officer to process</p>
+    {% endif %}
+    {% if status == 'accepted' %}
+    <p>This email is just for notifying you about your report has been accepted, it will take sometime for our head officer to approve the request</p>
+    {% else %}
+    <p>This email is just for notifying you about your report has been rejected, the information provided is insufficient</p>
+
+    {% endif %}
     <p>Thank you</p>
     
-    <p>Thank you for choosing our system</p>
 </div>
 
 {% endblock %}

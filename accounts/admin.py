@@ -6,9 +6,12 @@ from django.contrib.auth.admin import UserAdmin
 class CustomUserAdmin(UserAdmin):
     list_display = ("email","first_name","last_name","username","is_active")
     ordering = ("-date_joined",)
-    filter_horizontal = ()
+    filter_horizontal = ('groups', 'user_permissions',)
     list_filter = ()
-    fieldsets = ()
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        ('Permissions', {'fields': ( 'groups', 'user_permissions')}),
+    )
 
 admin.site.register(User,CustomUserAdmin)
 admin.site.register(UserProfile)

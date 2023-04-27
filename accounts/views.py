@@ -26,22 +26,23 @@ class UserViewSet(viewsets.ModelViewSet):
         #return Response(response,status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
     def create(self,request):
-        #print(request.data)
-        
-        #print(self)
         print(request.data)
-        user = User.objects.create_user(first_name=request.data['first_name'],
-                                   last_name=request.data['last_name'],
-                                   username=request.data['username'],
-                                   email=request.data['email'],
-                                   password=request.data['password'])
-        
-        user.is_active = True
-        user.save()
-        
-        response = {"message":"User are created"}
+        userSerializer = self.get_serializer(data=request.data)
+        if userSerializer.is_valid():
+            try:
+                user = userSerializer.create(userSerializer.validated_data)
+                response = {"message":"User are created", "user":self.get_serializer(instance=user).data }
+                return Response(response,status=status.HTTP_201_CREATED)
+            except:
+                return Response(response,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            response = {"message":"The provided data is invalid"}
+            return Response(response,status=status.HTTP_400_BAD_REQUEST)
+    
+    
 
-        return Response(response,status=status.HTTP_201_CREATED)
+    
+    
     
     #def update(self,request,pk=None):
         #response = {"message":"User are not allowed to send this request"}

@@ -7,6 +7,13 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = ('id','first_name','last_name','username','email','password')
 
+    def create(self,validated_data):
+        user = User.objects.create_user(**validated_data)
+        user.is_active = True
+        user.save()
+        return user
+
+
 class UserProfileSerializer(ModelSerializer):
     profile_picture = Base64ImageField()
     user = UserSerializer(required=True)

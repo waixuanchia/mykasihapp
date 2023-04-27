@@ -18,6 +18,7 @@ import os
 from django.conf import settings
 
 
+
 # Create your views here.
 
 class ReportViewSet(viewsets.ModelViewSet):
@@ -43,6 +44,7 @@ class ReportViewSet(viewsets.ModelViewSet):
         return Response({"message":"success"})
     
     def partial_update(self,request,pk):
+        print(request.user.groups)
         report = Report.objects.get(id = pk)
         status = Status.objects.get(status=request.data['status'])
         report.status = status

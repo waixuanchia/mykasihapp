@@ -18,5 +18,6 @@ class Report(models.Model):
     image_url = models.TextField(blank=True,null=True)
     ministry = models.ForeignKey(Ministries,on_delete=models.CASCADE)
     description = models.TextField(blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 

@@ -10,7 +10,7 @@ from .models import UserProfile,User
 
 router = DefaultRouter()
 router.register("users",UserViewSet)
-router.register("usersProfile",UserProfileViewSet)
+router.register("profiles",UserProfileViewSet)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self,attrs):

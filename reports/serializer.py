@@ -15,4 +15,4 @@ class ReportSerializer(ModelSerializer):
     status = StatusSerializer(required=False)
     class Meta:
         model = Report
-        fields = ['id','user','image_url','ministry','status','description']
+        fields = ['id','user','image_url','ministry','status','description','created_at']
